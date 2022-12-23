@@ -74,7 +74,7 @@ async function createTokenMetadata(
     createCreateMetadataAccountV2Instruction(
       {
         metadata: metadataPDA,
-        else
+        els
         mint: mint,
         mintAuthority: user.publicKey,
         payer: user.publicKey,
