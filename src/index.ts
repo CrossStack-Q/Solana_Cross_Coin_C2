@@ -35,10 +35,10 @@ async function createTokenMetadata(
   description: string
 ) {
   // file to buffer
-  const buffer = fs.readFileSync("assets/pizza.png")
+  const buffer = fs.readFileSync("assets/coder.png")
 
   // buffer to metaplex file
-  const file = toMetaplexFile(buffer, "pizza.png")
+  const file = toMetaplexFile(buffer, "coder.png")
 
   // upload image and get image uri
   const imageUri = await metaplex.storage().upload(file)
@@ -204,39 +204,77 @@ async function main() {
 
   console.log("PublicKey:", user.publicKey.toBase58())
 
-  const mint = await createNewMint(
-    connection,
-    user,
-    user.publicKey,
-    user.publicKey,
-    2
+  // const mint = await createNewMint(
+  //   connection,
+  //   user,
+  //   user.publicKey,
+  //   user.publicKey,
+  //   2
+  // )
+
+  // const tokenAccount = await createTokenAccount(
+  //   connection,
+  //   user,
+  //   mint,
+  //   user.publicKey
+  // )
+
+  // await mintTokens(connection, user, mint, tokenAccount.address, user, 100)
+
+  // const recipientTokenAccount = await token.getOrCreateAssociatedTokenAccount(
+  //   connection,
+  //   user,
+  //   mint,
+  //   new web3.PublicKey("BpnBxp5KvnupqYVutjYwyhmQi7wQrU5xZXXGRgZcKDSj")
+  // )
+
+  // await transferTokens(
+  //   connection,
+  //   user,
+  //   tokenAccount.address,
+  //   recipientTokenAccount.address,
+  //   user.publicKey,
+  //   50,
+  //   mint
+  // )
+
+
+
+// now th enc further token metadata wala calling
+
+
+// MAKE SURE YOU REPLACE THIS ADDRESS WITH YOURS!
+const MINT_ADDRESS = "7QSBqPnCGrudYYdWDr5puEeXbo5j5JLBqWQD1tmF5qCt"
+                      
+// metaplex setup
+const metaplex = Metaplex.make(connection)
+  .use(keypairIdentity(user))
+  .use(
+    bundlrStorage({
+      address: "https://devnet.bundlr.network",
+      providerUrl: "https://api.devnet.solana.com",
+      timeout: 60000,
+    })
   )
 
-  const tokenAccount = await createTokenAccount(
-    connection,
-    user,
-    mint,
-    user.publicKey
-  )
+// Calling the token 
+await createTokenMetadata(
+  connection,
+  metaplex,
+  new web3.PublicKey(MINT_ADDRESS),
+  user,
+  "Pizza", // Token name - REPLACE THIS WITH YOURS
+  "PZA",     // Token symbol - REPLACE THIS WITH YOURS
+  "Whoever holds this token is invited to my pizza party" // Token description - REPLACE THIS WITH YOURS
+)
 
-  await mintTokens(connection, user, mint, tokenAccount.address, user, 100)
 
-  const recipientTokenAccount = await token.getOrCreateAssociatedTokenAccount(
-    connection,
-    user,
-    mint,
-    new web3.PublicKey("BpnBxp5KvnupqYVutjYwyhmQi7wQrU5xZXXGRgZcKDSj")
-  )
 
-  await transferTokens(
-    connection,
-    user,
-    tokenAccount.address,
-    recipientTokenAccount.address,
-    user.publicKey,
-    50,
-    mint
-  )
+
+
+
+
+
 }
 
 main()
