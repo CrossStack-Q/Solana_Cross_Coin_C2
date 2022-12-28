@@ -2,6 +2,28 @@ import { initializeKeypair } from "./initializeKeypair"
 import * as web3 from "@solana/web3.js"
 import * as token from "@solana/spl-token"
 
+
+
+
+// GIve your token an identity wala import
+
+
+import {
+  Metaplex,
+  keypairIdentity,
+  bundlrStorage,
+  toMetaplexFile,
+} from "@metaplex-foundation/js"
+import {
+  DataV2,
+  createCreateMetadataAccountV2Instruction,
+  createUpdateMetadataAccountV2Instruction,
+} from "@metaplex-foundation/mpl-token-metadata"
+import * as fs from "fs"
+
+// now furthere ok
+
+
 async function createNewMint(
   connection: web3.Connection,
   payer: web3.Keypair,
